@@ -1,0 +1,32 @@
+hello haripipeline {
+    agent any
+    options {
+        // Timeout counter starts AFTER agent is allocated
+        timeout(time: 1, unit: 'SECONDS')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
+Stage Agents
+In agents declared within a stage, the options are invoked before allocating the agent and before checking any when conditions. In this case, when using timeout, it is applied before the agent is allocated. The time to allocate the agent is included in the limit set by the timeout option.
+
+pipeline {
+    agent none
+    stages {
+        stage('Example') {
+            agent any
+            options {
+                // Timeout counter starts BEFORE agent is allocated
+                timeout(time: 1, unit: 'SECONDS')
+            }
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
